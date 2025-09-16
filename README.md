@@ -30,6 +30,7 @@ Entrada UART: 17 bytes
 | ---------- | -------- | --------------------------- |
 | Descriptor | 1 byte   | Descriptor del tipo de dato |
 | Datos      | 16 bytes | Datos brutos                |
+
 Paquete LoRa: Variable
 | Campo      | Tamaño        | Descripción                               |
 | ---------- | ------------- | ----------------------------------------- |
