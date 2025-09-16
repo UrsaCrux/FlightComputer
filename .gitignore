@@ -22,9 +22,9 @@ Makefile
 # Archivos de VSCode
 .vscode/
 
-# Archivos de
+# Archivos de clang
 .clangd/
-
+.clangd
 # Logs y temporales
 *.log
 *.tmp
