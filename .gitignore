@@ -1,4 +1,35 @@
-.devcontainer/
-.vscode/
+# Archivos de compilación de ESP-IDF
 build/
-.vscode/settings.json
+*.elf
+*.bin
+*.hex
+*.map
+*.axf
+
+# Archivos de configuración temporales
+sdkconfig.old
+sdkconfig.defaults
+
+# Contenedores de desarrollo
+.devcontainer/
+
+# Archivos de CMake generados automáticamente
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Archivos de VSCode
+.vscode/
+
+# Archivos de
+.clangd/
+
+# Logs y temporales
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Archivos de CI/CD generados
+sdkconfig.ci
