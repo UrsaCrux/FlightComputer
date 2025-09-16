@@ -1,3 +1,15 @@
+/*
+ * ESP32 LoRa Flight Computer
+ * Copyright (C) 2025 Club de Cohetería Ursa Crux
+ * 
+ * No lo hacemos porque sea fácil, pero porque es difícil.
+ *
+ * Este programa es software libre: puedes redistribuirlo y/o modificarlo
+ * bajo los términos de la Licencia Pública General GNU publicada por
+ * la Free Software Foundation, ya sea la versión 3 de la Licencia, o
+ * cualquier versión posterior.
+ */
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
