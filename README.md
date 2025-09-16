@@ -1,53 +1,45 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-H21 | ESP32-H4 | ESP32-P4 | ESP32-S2 | ESP32-S3 | Linux |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | --------- | -------- | -------- | -------- | -------- | ----- |
+# Flight Computer
+Derivado del computador de vuelo principal para el testeo de velocidad y fidelidad de los paquetes enviados mediante LoRa.
+Capacidades:
+- Lectura de datos UART a 115200 baudios desde un computador u otros.
+- Entrada de 16 bytes con 1 byte extra de descripción.
+- Generación de paquetes de tamaño variable (máximo de 24 bytes) dependiendo de la intensidad de la señal (RSSI).
+- División de segmentos grandes de datos en múltiples paquetes asegurando que no haya perdida de datos.
+- Cada paquete LoRa tiene: (PHUC)
+   - Número mágico (1 byte)
+   - Descriptor (1 byte)
+   - Marca de tiempo en microsegundos (4 bytes)
+   - Payload (longitud variable)
+   - CRC16 para detección de errores (2 bytes)
+- Uso de colas de FreeRTOS y buffers preasignados para comunicación segura entre tareas y tiempo determinista
+- Seguridad robusta, sin asignación dinámica de memoria en el flujo de datos.
 
-# Hello World Example
+# Hardware
+- Placa de desarrollo ESP32 (genérica; idealmente de más de un núcleo)
+- Módulo LoRa SX1278 (433MHz)
+- Fuente de datos UART-USB (dispositivo enviando tramas de 16 bytes + 1 byte descriptor)
 
-Starts a FreeRTOS task to print "Hello World".
+# Requisitos
+- ESP-IDF v5.5.1 o compatible
+- Librería SX127x LoRa (incluida en [componentes](components/))
+- FreeRTOS (incluido en ESP-IDF)
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+# Formato de datos
+Entrada UART: 17 bytes
+| Campo      | Tamaño   | Descripción                 |
+| ---------- | -------- | --------------------------- |
+| Descriptor | 1 byte   | Descriptor del tipo de dato |
+| Datos      | 16 bytes | Datos brutos                |
+Paquete LoRa: Variable
+| Campo      | Tamaño        | Descripción                               |
+| ---------- | ------------- | ----------------------------------------- |
+| Magic      | 1 byte        | `0x69`                                    |
+| Descriptor | 1 byte        | Igual que el descriptor de UAR            |
+| Timestamp  | 4 bytes       | Tiempo en microsegundos                   |
+| Payload    | 8/12/16 bytes | Determinado por RSSI (puede ser menos)    |
+| CRC16      | 2 bytes       | Checksum CRC16 del paquete                |
 
-## How to use example
+# Licencia
+Este programa es software libre bajo la Licencia Pública General GNU. Más información [aquí](LICENSE)
 
-Follow detailed instructions provided specifically for this example.
-
-Select the instructions depending on Espressif chip installed on your development board:
-
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
-
-
-## Example folder contents
-
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
-
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both).
-
-Below is short explanation of remaining files in the project folder.
-
-```
-├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
-│   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
-```
-
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
-
-## Troubleshooting
-
-* Program upload failure
-
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
-
-## Technical support and feedback
-
-Please use the following feedback channels:
-
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
-
-We will get back to you as soon as possible.
+Hecho con mucho café por [domi](https://github.com/domigc)
