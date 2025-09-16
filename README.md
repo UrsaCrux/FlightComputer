@@ -1,5 +1,6 @@
 # Flight Computer
 Derivado del computador de vuelo principal para el testeo de velocidad y fidelidad de los paquetes enviados mediante LoRa.
+
 Capacidades:
 - Lectura de datos UART a 115200 baudios desde un computador u otros.
 - Entrada de 16 bytes con 1 byte extra de descripción.
